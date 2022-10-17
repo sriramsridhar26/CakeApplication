@@ -1,0 +1,14 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CakeApplication.Model
+{
+    public class User
+    {
+        [Key]
+        public string emailId { get; set; }
+        public string password { get; set; }
+        public string customerName { get; set; }
+        public string MobileNo { get; set; }
+        public string Address { get; set; }
+    }
+}
