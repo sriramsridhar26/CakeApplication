@@ -1,68 +1,20 @@
 ﻿using CakeApplication.Data;
 using CakeApplication.DTO;
 using CakeApplication.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CakeApplication.Controllers
 {
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
     public class HomeController : Controller
     {
         private ApplicationDbContext _context;
         public HomeController(ApplicationDbContext context)
         {
             _context = context;
-        }
-        [HttpPost("/Login")]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromBody] LoginDTO userd)
-        {
-            if (userd.emailId != null)
-            {
-                LoginResDTO userc = new LoginResDTO(_context.users
-                                                  .Where(x => x.emailId == userd.emailId && x.password == userd.password).SingleOrDefault());
-                return Ok(userc);
-            }
-            else
-            {
-                return BadRequest();
-            }
-
-        }
-        [HttpGet("/CheckUser")]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Checkuser([FromQuery] string emailId)
-        {
-            if (emailId != null)
-            {
-                LoginResDTO userc = new LoginResDTO(_context.users
-                                                  .Where(x => x.emailId == emailId).SingleOrDefault());
-                if(userc != null)
-                {
-                    return Ok(userc.customerName);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-                
-            }
-            else
-            {
-                return BadRequest();
-            }
-
-        }
-
-        [HttpPost("/Register")]
-        public async Task<IActionResult> Register([FromBody] User user)
-        {
-            if (user != null)
-            {
-                _context.users.Add(user);
-                _context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
         }
         [HttpGet("/Getcategory")]
         public async Task<IActionResult> Getcategory()
